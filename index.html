@@ -1,123 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RentWise — Smart Rent Splitter</title>
+  <style>
+    :root { --ink:#18253d; --muted:#667085; --brand:#5b5ce2; --brand-dark:#3f40bb; --mint:#e9fbf3; --green:#168b60; --amber:#bf7400; --red:#c53b49; --line:#e6e9f2; --card:#fff; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--ink); background:linear-gradient(135deg,#f7f8ff 0%,#f0fbf7 100%); min-height:100vh; }
+    .container { max-width:1100px; margin:auto; padding:36px 22px 48px; }
+    header { display:flex; align-items:center; justify-content:space-between; margin-bottom:28px; }
+    .brand { display:flex; gap:12px; align-items:center; }
+    .logo { display:grid; place-items:center; width:45px; height:45px; border-radius:14px; font-size:24px; background:var(--brand); box-shadow:0 9px 22px #5b5ce245; }
+    h1 { margin:0; font-size:1.45rem; letter-spacing:-.5px; } .tagline { margin:3px 0 0; color:var(--muted); font-size:.9rem; }
+    .badge { background:#eef0ff; color:var(--brand-dark); padding:9px 14px; border-radius:999px; font-weight:700; font-size:.8rem; }
+    .hero { border-radius:24px; padding:30px; color:white; background:linear-gradient(115deg,#5152da,#7b62e7); position:relative; overflow:hidden; }
+    .hero::after { content:""; width:300px; height:300px; border:45px solid #ffffff18; position:absolute; border-radius:50%; right:-100px; top:-150px; }
+    .hero p { margin:0 0 8px; opacity:.85; font-weight:600; } .hero h2 { margin:0; max-width:620px; font-size:clamp(1.6rem,4vw,2.55rem); line-height:1.15; letter-spacing:-1.3px; }
+    .hero small { display:block; margin-top:16px; opacity:.82; }
+    .grid { display:grid; grid-template-columns:1.08fr .92fr; gap:20px; margin-top:20px; }
+    .card { background:var(--card); border:1px solid #ffffff; border-radius:20px; padding:24px; box-shadow:0 12px 34px #202e5210; }
+    .card h3 { font-size:1rem; margin:0 0 18px; } .section-note { color:var(--muted); font-size:.8rem; margin:-12px 0 18px; }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    label { display:block; color:#4d5a70; font-size:.82rem; font-weight:700; margin-bottom:6px; }
+    .input-wrap { border:1px solid var(--line); border-radius:12px; background:#fbfcff; display:flex; align-items:center; overflow:hidden; transition:.2s; }
+    .input-wrap:focus-within { outline:3px solid #5b5ce222; border-color:var(--brand); }
+    .prefix { padding-left:12px; color:var(--muted); font-weight:700; } input { border:0; background:transparent; color:var(--ink); padding:12px 10px; font-weight:700; min-width:0; width:100%; font:inherit; outline:0; }
+    .full { grid-column:1/-1; } .range-top { display:flex; justify-content:space-between; align-items:center; } output { color:var(--brand); font-weight:800; }
+    input[type="range"] { accent-color:var(--brand); padding:0; margin:9px 0 0; }
+    .result { text-align:center; display:flex; flex-direction:column; justify-content:center; background:linear-gradient(145deg,#ffffff,#f6fff9); }
+    .status { display:inline-flex; align-items:center; align-self:center; gap:7px; background:var(--mint); color:var(--green); border-radius:999px; padding:8px 12px; font-size:.78rem; font-weight:800; }
+    .dot { height:8px; width:8px; border-radius:50%; background:currentColor; box-shadow:0 0 0 4px #168b6020; }
+    .share { font-size:3rem; font-weight:850; letter-spacing:-2px; margin:15px 0 0; } .share-caption { margin:0; color:var(--muted); font-size:.82rem; font-weight:700; }
+    .result-message { margin:16px auto 0; max-width:310px; color:#526077; font-size:.86rem; line-height:1.5; }
+    .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:20px; }
+    .stat { background:#f8f9fe; border-radius:14px; padding:14px; } .stat span { display:block; color:var(--muted); font-size:.76rem; font-weight:650; } .stat strong { display:block; margin-top:6px; font-size:1.1rem; }
+    .split-card { margin-top:20px; } .split-head { display:flex; justify-content:space-between; gap:12px; align-items:center; } .split-head p { margin:0; color:var(--muted); font-size:.84rem; }
+    .breakdown { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:18px; } .breakdown div { padding:15px; border:1px solid var(--line); border-radius:14px; } .breakdown span { color:var(--muted); font-size:.8rem; } .breakdown strong { display:block; margin-top:5px; }
+    button { margin-top:18px; border:0; border-radius:12px; width:100%; padding:14px; font:inherit; color:white; background:var(--brand); font-weight:800; cursor:pointer; transition:.2s; } button:hover { background:var(--brand-dark); transform:translateY(-1px); } button:active { transform:translateY(0); }
+    footer { text-align:center; color:var(--muted); font-size:.78rem; margin-top:23px; }
+    @media (max-width:760px) { .container { padding:20px 14px 36px; } header { align-items:flex-start; } .badge { display:none; } .hero,.card { padding:21px; } .grid { grid-template-columns:1fr; } .stats,.breakdown { grid-template-columns:1fr; } .form-grid { grid-template-columns:1fr; } .full { grid-column:auto; } }
+  </style>
+  /head>
 <body>
-    <main class="app container">
-    <header class="app-header">
-        <h1> RENT WISE</h1>
-        <p> Know your share . Know your budget.</p>
+  <main class="container">
+    <header>
+      <div class="brand"><div class="logo">🏠</div><div><h1>RENTWISE</h1><p class="tagline">Know your share. Know your budget.</p></div></div>
+      <span class="badge">SMART LIVING, SIMPLIFIED</span>
     </header>
 
-    <section class="grid-summary">
-        <div class="your-numbers card">
-            <h2> YOUR NUMBERS</h2>
-
-            <div class="input-group">
-                <label for="Income">MONTHLY INCOME</label>
-                <input id="Income" type="number" value="50000" />
-            </div>
-            <div class="affordability card">
-    <h2>AFFORDABILITY</h2>
-
-    <div class="status">
-        🟢
-        <span>AFFORDABLE</span>
-    </div>
-
-    <div class="fair-share">
-        <p>YOUR FAIR SHARE</p>
-        <h3>₹4,833</h3>
-    </div>
-
-    <div class="result-details">
-        <div>
-            <span>Income Used</span>
-            <strong>16.1%</strong>
-        </div>
-
-        <div>
-            <span>Your Limit</span>
-            <strong>30%</strong>
-        </div>
-
-        <div>
-            <span>Difference</span>
-            <strong>₹4,167 below limit</strong>
-        </div>
-    </div>
-</div>
-
-            <div class="input-group">
-                <label for="Rent">
-                    Monthly Rent 
-                </label>
-                <input id="rent" type="number" value="15000" />
-
-                </div>
-
-                <div input="input-group">
-                    <label for="utilities">Utilities</label>
-                    <input id="utilities" type="number" value="3000" /> 
-                
-                </div>
-                <div class="input-group">
-                    <label for="people">People sharing</label>
-                    <input id="people" type="number" value="4" min="1"/>
-                </div>
-        </div>
-
-        <div class="affordability card">
-            <h2> AFFORDABILITY</h2>
-            <div class="status-icon">🟢</div>
-            <p class="status-text"> AFFORDABLE</p>
-
-            <p class="share-amount">₹<span id="your-share">5000</span></p>
-            <p class="caption"> YOUR SHARE</p>
-
-            <p class="percent"><span id="income-percent">25</span>%</p>
-            <p class="caption"> OF INCOME</p>
-
-            <p class="limit-text"> YOUR LIMIT: <strong> 35%</strong></p>
-
-        </div>
-
+    <section class="hero">
+      <p>YOUR HOME. YOUR FINANCIAL CLARITY.</p>
+      <h2>Find a home that feels good — and fits your budget.</h2>
+      <small>Calculate your fair share in seconds, then rent with confidence.</small>
     </section>
 
-    <section class="limit-section">
-        <h2> AFFORDABILITY LIMIT</h2>
-
-        <div class="range-labels">
-        <span> 25%</span>
-        <span> 50%</span>
+    <section class="grid" aria-label="Rent affordability calculator">
+      <form class="card" id="rent-form">
+        <h3>Your numbers</h3><p class="section-note">Update any value to see your personalised result.</p>
+        <div class="form-grid">
+          <div><label for="income">Monthly income</label><div class="input-wrap"><span class="prefix">₹</span><input id="income" type="number" min="0" value="30000"></div></div>
+          <div><label for="people">People sharing</label><div class="input-wrap"><input id="people" type="number" min="1" max="20" value="3"></div></div>
+          <div><label for="rent">Total monthly rent</label><div class="input-wrap"><span class="prefix">₹</span><input id="rent" type="number" min="0" value="12000"></div></div>
+          <div><label for="utilities">Monthly utilities</label><div class="input-wrap"><span class="prefix">₹</span><input id="utilities" type="number" min="0" value="2500"></div></div>
+          <div class="full"><div class="range-top"><label for="limit">Your comfort limit</label><output id="limit-output">30%</output></div><input id="limit" type="range" min="20" max="50" value="30"><small class="section-note">Recommended housing spend: up to 30% of your income.</small></div>
         </div>
+        <button type="submit">Check affordability →</button>
+      </form>
 
-    <input
-        id="affordability-limit"
-        type="range"
-        min="20"
-        max="50"
-        value="30"
-      />
-
-      <p><span id="limit-value">30</span>%</p>
-
-      <button id="check-button">CHECK AFFORDABILITY</button>
+      <aside class="card result" aria-live="polite">
+        <div class="status" id="status"><span class="dot"></span><span id="status-text">AFFORDABLE</span></div>
+        <div class="share" id="share">₹4,833</div><p class="share-caption">YOUR MONTHLY SHARE</p>
+        <p class="result-message" id="message">Great choice! This keeps your housing costs comfortably within your budget.</p>
+        <div class="stats"><div class="stat"><span>Of income</span><strong id="percent">16.1%</strong></div><div class="stat"><span>You keep</span><strong id="remaining">₹25,167</strong></div><div class="stat"><span>Your limit</span><strong id="limit-stat">30%</strong></div></div>
+      </aside>
     </section>
-    <section class="money-section">
-        <h2>WHERE YOUR MONEY GOES</h2>
 
-      <div class="expense-summary">
-        <p>Rent Share: <span id="rent-share">₹4,000</span></p>
-        <p>Utilities Share: <span id="utilities-share">₹833</span></p>
-      </div>
-      </main>
-      <script src="script.js"></script>
-
+    <section class="card split-card">
+      <div class="split-head"><div><h3>Where your money goes</h3><p>A transparent split makes every roommate conversation easier.</p></div><span class="badge" id="per-person">3 people</span></div>
+      <div class="breakdown"><div><span>Rent share</span><strong id="rent-share">₹4,000</strong></div><div><span>Utility share</span><strong id="utility-share">₹833</strong></div><div><span>Total monthly share</span><strong id="total-share">₹4,833</strong></div></div>
     </section>
+    <footer>RentWise helps you make informed renting decisions. Amounts are estimates based on the details entered.</footer>
+  </main>
+
+  <script>
+    const ids = ['income','rent','utilities','people','limit'];
+    const money = n => '₹' + Math.round(n).toLocaleString('en-IN');
+    function calculate() {
+      const income = Math.max(0, Number(incomeEl.value) || 0), rent = Math.max(0, Number(rentEl.value) || 0), utilities = Math.max(0, Number(utilitiesEl.value) || 0);
+      const people = Math.max(1, Number(peopleEl.value) || 1), limit = Number(limitEl.value);
+      const rentPart = rent / people, utilityPart = utilities / people, share = rentPart + utilityPart;
+      const percent = income ? (share / income) * 100 : 0;
+      limitOutput.textContent = limit + '%'; limitStat.textContent = limit + '%';
+      shareEl.textContent = money(share); percentEl.textContent = percent.toFixed(1) + '%'; remainingEl.textContent = money(Math.max(0, income - share));
+      rentShare.textContent = money(rentPart); utilityShare.textContent = money(utilityPart); totalShare.textContent = money(share); perPerson.textContent = people + (people === 1 ? ' person' : ' people');
+      let state = percent <= limit ? ['AFFORDABLE','Great choice! This keeps your housing costs comfortably within your budget.','#168b60','#e9fbf3'] : percent <= limit + 10 ? ['CONSIDER CAREFULLY','This is slightly above your comfort limit. Consider reducing expenses or sharing with one more roommate.','#bf7400','#fff7e7'] : ['OVER BUDGET','This cost may put pressure on your monthly budget. Explore a lower-rent option or add a roommate.','#c53b49','#fff0f2'];
+      statusText.textContent = state[0]; message.textContent = state[1]; status.style.color = state[2]; status.style.background = state[3];
+    }
+    const [incomeEl,rentEl,utilitiesEl,peopleEl,limitEl] = ids.map(id => document.getElementById(id));
+    const shareEl=document.getElementById('share'), percentEl=document.getElementById('percent'), remainingEl=document.getElementById('remaining'), limitOutput=document.getElementById('limit-output'), limitStat=document.getElementById('limit-stat'), rentShare=document.getElementById('rent-share'), utilityShare=document.getElementById('utility-share'), totalShare=document.getElementById('total-share'), perPerson=document.getElementById('per-person'), status=document.getElementById('status'), statusText=document.getElementById('status-text'), message=document.getElementById('message');
+    ids.forEach(id => document.getElementById(id).addEventListener('input', calculate));
+    document.getElementById('rent-form').addEventListener('submit', e => { e.preventDefault(); calculate(); });
+    calculate();
+  </script>
 </body>
 </html>
