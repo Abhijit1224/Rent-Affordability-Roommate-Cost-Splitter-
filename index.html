@@ -93,25 +93,6 @@
     <footer>RentWise helps you make informed renting decisions. Amounts are estimates based on the details entered.</footer>
   </main>
 
-  <script>
-    const ids = ['income','rent','utilities','people','limit'];
-    const money = n => '₹' + Math.round(n).toLocaleString('en-IN');
-    function calculate() {
-      const income = Math.max(0, Number(incomeEl.value) || 0), rent = Math.max(0, Number(rentEl.value) || 0), utilities = Math.max(0, Number(utilitiesEl.value) || 0);
-      const people = Math.max(1, Number(peopleEl.value) || 1), limit = Number(limitEl.value);
-      const rentPart = rent / people, utilityPart = utilities / people, share = rentPart + utilityPart;
-      const percent = income ? (share / income) * 100 : 0;
-      limitOutput.textContent = limit + '%'; limitStat.textContent = limit + '%';
-      shareEl.textContent = money(share); percentEl.textContent = percent.toFixed(1) + '%'; remainingEl.textContent = money(Math.max(0, income - share));
-      rentShare.textContent = money(rentPart); utilityShare.textContent = money(utilityPart); totalShare.textContent = money(share); perPerson.textContent = people + (people === 1 ? ' person' : ' people');
-      let state = percent <= limit ? ['AFFORDABLE','Great choice! This keeps your housing costs comfortably within your budget.','#168b60','#e9fbf3'] : percent <= limit + 10 ? ['CONSIDER CAREFULLY','This is slightly above your comfort limit. Consider reducing expenses or sharing with one more roommate.','#bf7400','#fff7e7'] : ['OVER BUDGET','This cost may put pressure on your monthly budget. Explore a lower-rent option or add a roommate.','#c53b49','#fff0f2'];
-      statusText.textContent = state[0]; message.textContent = state[1]; status.style.color = state[2]; status.style.background = state[3];
-    }
-    const [incomeEl,rentEl,utilitiesEl,peopleEl,limitEl] = ids.map(id => document.getElementById(id));
-    const shareEl=document.getElementById('share'), percentEl=document.getElementById('percent'), remainingEl=document.getElementById('remaining'), limitOutput=document.getElementById('limit-output'), limitStat=document.getElementById('limit-stat'), rentShare=document.getElementById('rent-share'), utilityShare=document.getElementById('utility-share'), totalShare=document.getElementById('total-share'), perPerson=document.getElementById('per-person'), status=document.getElementById('status'), statusText=document.getElementById('status-text'), message=document.getElementById('message');
-    ids.forEach(id => document.getElementById(id).addEventListener('input', calculate));
-    document.getElementById('rent-form').addEventListener('submit', e => { e.preventDefault(); calculate(); });
-    calculate();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
