@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="style sheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <main class="app container"
+    <main class="app container">
     <header class="app-header">
         <h1> RENT WISE</h1>
         <p> Know your share . Know your budget.</p>
@@ -21,8 +21,38 @@
                 <label for="Income">MONTHLY INCOME</label>
                 <input id="Income" type="number" value="50000" />
             </div>
+            <div class="affordability card">
+    <h2>AFFORDABILITY</h2>
 
-            <div class="input group">
+    <div class="status">
+        🟢
+        <span>AFFORDABLE</span>
+    </div>
+
+    <div class="fair-share">
+        <p>YOUR FAIR SHARE</p>
+        <h3>₹4,833</h3>
+    </div>
+
+    <div class="result-details">
+        <div>
+            <span>Income Used</span>
+            <strong>16.1%</strong>
+        </div>
+
+        <div>
+            <span>Your Limit</span>
+            <strong>30%</strong>
+        </div>
+
+        <div>
+            <span>Difference</span>
+            <strong>₹4,167 below limit</strong>
+        </div>
+    </div>
+</div>
+
+            <div class="input-group">
                 <label for="Rent">
                     Monthly Rent 
                 </label>
@@ -36,14 +66,57 @@
                 
                 </div>
                 <div class="input-group">
-                    <label for="people">Number of People</label>
+                    <label for="people">People sharing</label>
                     <input id="people" type="number" value="4" min="1"/>
                 </div>
-
-
-
-           
         </div>
+
+        <div class="affordability card">
+            <h2> AFFORDABILITY</h2>
+            <div class="status-icon">🟢</div>
+            <p class="status-text"> AFFORDABLE</p>
+
+            <p class="share-amount">₹<span id="your-share">5000</span></p>
+            <p class="caption"> YOUR SHARE</p>
+
+            <p class="percent"><span id="income-percent">25</span>%</p>
+            <p class="caption"> OF INCOME</p>
+
+            <p class="limit-text"> YOUR LIMIT: <strong> 35%</strong></p>
+
+        </div>
+
+    </section>
+
+    <section class="limit-section">
+        <h2> AFFORDABILITY LIMIT</h2>
+
+        <div class="range-labels">
+        <span> 25%</span>
+        <span> 50%</span>
+        </div>
+
+    <input
+        id="affordability-limit"
+        type="range"
+        min="20"
+        max="50"
+        value="30"
+      />
+
+      <p><span id="limit-value">30</span>%</p>
+
+      <button id="check-button">CHECK AFFORDABILITY</button>
+    </section>
+    <section class="money-section">
+        <h2>WHERE YOUR MONEY GOES</h2>
+
+      <div class="expense-summary">
+        <p>Rent Share: <span id="rent-share">₹4,000</span></p>
+        <p>Utilities Share: <span id="utilities-share">₹833</span></p>
+      </div>
+      </main>
+      <script src="script.js"></script>
 
     </section>
 </body>
