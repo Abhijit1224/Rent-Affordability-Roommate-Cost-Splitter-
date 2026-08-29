@@ -69,7 +69,7 @@ async function calculate() {
 
         // Call Express backend
         const response = await fetch(
-            "https://rent-affordability-roommate-cost-splitter.onrender.com/api/calculate"
+            "https://rent-affordability-roommate-cost-splitter.onrender.com/api/calculate",
             {
                 method: "POST",
 
