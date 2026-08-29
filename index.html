@@ -51,7 +51,9 @@
     footer { text-align:center; color:var(--muted); font-size:.78rem; margin-top:23px; }
     @media (max-width:760px) { .container { padding:20px 14px 36px; } header { align-items:flex-start; } .badge { display:none; } .hero,.card { padding:21px; } .grid { grid-template-columns:1fr; } .stats,.breakdown { grid-template-columns:1fr; } .form-grid { grid-template-columns:1fr; } .full { grid-column:auto; } }
   </style>
-  </head>
+  <link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#5b5ce2">
+  </head> 
 <body>
   <main class="container">
     <header>
@@ -94,5 +96,14 @@
   </main>
 
   <script src="script.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("./sw.js")
+                .then(() => console.log("RentWise service worker registered"))
+                .catch(error => console.error("Service worker error:", error));
+        });
+    }
+</script>
 </body>
 </html>
