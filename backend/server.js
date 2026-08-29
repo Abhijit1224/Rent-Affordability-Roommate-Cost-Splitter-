@@ -2,19 +2,20 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-const PORT = 3000;
-
+const PORT = process.env.PORT || 3000;
+// Middleware
 app.use(cors());
 app.use(express.json());
 
+// Test route
 app.get("/", (req, res) => {
     res.json({
         message: "RentWise backend is running 🚀"
     });
 });
 
+// Affordability API
 app.post("/api/calculate", (req, res) => {
-
     const {
         income,
         rent,
@@ -52,35 +53,27 @@ app.post("/api/calculate", (req, res) => {
     let message;
 
     if (income === 0) {
-
         status = "ENTER INCOME";
-
         message =
             "Enter your monthly income to check affordability.";
 
     } else if (incomePercent <= limit) {
-
         status = "AFFORDABLE";
-
         message =
             "Great choice! This keeps your housing costs comfortably within your budget.";
 
     } else if (incomePercent <= limit + 10) {
-
         status = "CONSIDER CAREFULLY";
-
         message =
-            "This is slightly above your comfort limit. Consider reducing expenses or sharing with one more roommate.";
+            "This is slightly above your comfort limit.";
 
     } else {
-
         status = "OVER BUDGET";
-
         message =
-            "This cost may put pressure on your monthly budget. Explore a lower-rent option or add a roommate.";
+            "This cost may put pressure on your monthly budget.";
     }
 
-    // Send result to frontend
+    // Send result back to frontend
     res.json({
         rentShare,
         utilityShare,
@@ -92,8 +85,9 @@ app.post("/api/calculate", (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(
-        `RentWise backend running on http://localhost:${PORT}`
-    );
+// Start server
+app.listen(PORT, "0.0.0.0", () => {
+
+    console.log(`RentWise backend running on port ${PORT}`);
+
 });
